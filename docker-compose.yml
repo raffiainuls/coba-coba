@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  mysql_server:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=adminpass123
+      - MYSQL_USER=mysqldev
+      - MYSQL_PASSWORD=adminpass123
+      - MYSQL_DATABASE=nusacode_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  clickhouse_server:
+    image: clickhouse/clickhouse-server:latest
+    restart: always
+    environment:
+      - CLICKHOUSE_USER=clickhousedev
+      - CLICKHOUSE_PASSWORD=adminpass123
+      - CLICKHOUSE_DB=nusacode_db
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+
+  postgres_server:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgresdev
+      - POSTGRES_PASSWORD=adminpass123
+      - POSTGRES_DB=nusacode_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  mysql_data:
+  clickhouse_data:
+  postgres_data:
